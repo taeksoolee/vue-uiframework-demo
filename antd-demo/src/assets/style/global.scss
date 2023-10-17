@@ -1,0 +1,55 @@
+@for $i from 1 to 31 {
+  @each $e in (
+    ('a', ('')),
+    ('t', ('-top')),
+    ('b', ('-bottom')),
+    ('l', ('-left')),
+    ('r', ('-right')),
+    ('x', ('-left', '-right')),
+    ('y', ('-top', '-bottom')),
+  ) {
+    
+    .p#{nth($e, 1)}-#{$i} {
+      @each $v in nth($e, 2) {
+        padding#{$v}: #{$i * 4}px;
+      }
+    }
+    .m#{nth($e, 1)}-#{$i} {
+      @each $v in nth($e, 2) {
+        margin#{$v}: #{$i * 4}px;
+      }
+    }
+  }
+}
+
+@each $e in ('center', 'left', 'right') {
+  .text-#{$e} {
+    text-align: #{$e};
+  }
+
+  @if $e != 'center' {
+    .float-#{$e} {
+      float: #{$e};
+    }
+  }
+}
+
+@each $e in (
+  ('w', 'width'),
+  ('h', 'height')
+) {
+  .#{nth($e, 1)}-full {
+    #{nth($e, 2)}: 100%;
+  }
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.flex-1 {
+  flex: 1;
+}
