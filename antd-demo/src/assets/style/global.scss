@@ -41,6 +41,9 @@
   .#{nth($e, 1)}-full {
     #{nth($e, 2)}: 100%;
   }
+  .#{nth($e, 1)}-v#{nth($e, 1)} {
+    #{nth($e, 2)}: #{'100v' + nth($e, 1)};
+  }
 }
 
 .center {
@@ -52,4 +55,11 @@
 
 .flex-1 {
   flex: 1;
+}
+
+
+@each $c in ('transparent', 'white', 'black') {
+  .bg-#{$c} {
+    background-color: #{$c} !important;
+  }
 }

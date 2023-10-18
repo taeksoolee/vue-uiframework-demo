@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "@vueuse/core": "^10.5.0",
     "ant-design-vue": "^4.0.4",
     "core-js": "^3.6.5",
     "dart-sass": "^1.25.0",

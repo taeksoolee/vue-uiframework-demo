@@ -1,5 +1,5 @@
 <template>
-  <div class="login w-full h-full center" style="transform: translateY(calc(50% - 150px / 2))">
+  <div class="login w-vw h-vh center">
     <div>
       <a-space class="center">
         <a-typography-title :level="3" :style="{

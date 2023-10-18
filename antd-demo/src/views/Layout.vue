@@ -1,7 +1,8 @@
 <template>
 <!-- <div class="layout"> -->
+  {{ isMobile }}
   <a-layout style="min-height: 100vh">
-    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
+    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible breakpoint="md" >
       <div class="logo ma-7">
         <a-typography-title :level="5" style="display: flex; align-items: baseline; text-wrap: nowrap;" class="text-center">
           <span :class="{
@@ -45,7 +46,7 @@
     </a-layout-sider>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0;">
-        <a-space align="between" class="w-full px-4" style="justify-content: space-between;">
+        <a-space align="between" class="w-full px-4" :style="{ justifyContent: 'space-between'}">
           <a-space-compact>
             <a-space size="small" algin="center">
               <a-button 
@@ -59,11 +60,11 @@
                 <MenuFoldOutlined v-else />
                 </template>
               </a-button>
-              <span>{{ timeStr }}</span>
+              <span style="text-wrap: nowrap;">{{ timeStr }}</span>
             </a-space>
           </a-space-compact>
           <a-space-compact>
-            <a-space size="small" algin="center">
+            <a-space v-if="!isMobile" size="small" algin="center">
               <a-avatar :size="20">
                 <template #icon><UserOutlined /></template>
               </a-avatar>
@@ -77,18 +78,21 @@
           </a-space-compact>
         </a-space>
       </a-layout-header>
-      <a-layout-content class="mx-4">
-        <a-breadcrumb class="my-4">
+      <a-layout-content>
+        <a-breadcrumb class="ma-2">
           <a-breadcrumb-item>User</a-breadcrumb-item>
           <a-breadcrumb-item>Bill</a-breadcrumb-item>
         </a-breadcrumb>
-        <div :style="{padding: '24px', background: '#fff', minHeight: '350px'}">
-          Content
+        <div :style="{background: '#fff', height: 'calc(100vh - 105px)', overflow: 'scroll'}">
+          <div v-for="i in new Array(300)" :key="i">
+            <div>Content</div>
+          </div>
+          <a-layout-footer style="text-align: center">
+            Haezoom VPP ©2023 Created by Taeksoolee
+          </a-layout-footer>
         </div>
       </a-layout-content>
-      <a-layout-footer style="text-align: center">
-        Haezoom VPP ©2023 Created by Taeksoolee
-      </a-layout-footer>
+      
     </a-layout>
   </a-layout>
 <!-- </div> -->
@@ -99,6 +103,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { UserOutlined, DesktopOutlined, TeamOutlined, MenuUnfoldOutlined, MenuFoldOutlined, LogoutOutlined } from '@ant-design/icons-vue';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import useResponsiveObserver from 'ant-design-vue/es/_util/responsiveObserve';
 
 const selectedKeys = ref(['1']);
 const collapsed = ref(false);
@@ -116,4 +121,29 @@ onBeforeUnmount(() => {
 });
 
 const timeStr = computed(() => format(currentTime.value, 'yyyy년 MM월 dd일 (eee) HH:mm:ss', { locale: ko }));
+
+
+const observer$ = useResponsiveObserver();
+type Broken = Parameters<Parameters<typeof observer$.value.subscribe>[0]>[0];
+const broken = ref<Broken>();
+const subId = ref(0);
+onMounted(() => {
+  subId.value = observer$.value.subscribe((val) => {
+    broken.value = val;
+  })
+});
+onBeforeUnmount(() => {
+  subId.value && observer$.value.unsubscribe(subId.value)
+});
+
+const responsive = computed(() => {
+  const b = broken.value;
+  if (!b) return [];
+  return Object.keys(b).filter((key) => {
+    const v = (b as Record<string, unknown>)[key];
+    return v;
+  })
+});
+
+const isMobile = computed(() => responsive.value.includes('xs') || !responsive.value.includes('md'));
 </script>
