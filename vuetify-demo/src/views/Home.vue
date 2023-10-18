@@ -125,19 +125,19 @@
               <div>custom loader</div>
             </template> -->
           </v-btn>
-          <v-btn class="mx-2"  icon="$vuetify"></v-btn>
-          <v-btn class="mx-2" >
-            <template #prepend>
-              <v-icon icon="$vuetify"></v-icon>
-            </template>
-            With Icon
-          </v-btn>
+          <v-btn class="mx-2" icon="$vuetify" rounded="0"></v-btn>
           <v-tooltip v-for="location in ['top', 'left', 'right', 'bottom']" :key="location" v-model="(shows as any)[location]" :location="(location as any)">
             <template v-slot:activator="{ props }">
               <v-btn v-bind="props" class="mx-2" icon="mdi-information"></v-btn>
             </template>
             <div>Tooltip Message</div>
           </v-tooltip>
+          <v-btn class="mx-2" >
+            <template #prepend>
+              <v-icon icon="$vuetify"></v-icon>
+            </template>
+            With Icon
+          </v-btn>
           <v-btn class="mx-2" >
             <template #append>
               <v-icon icon="$vuetify"></v-icon>
@@ -218,7 +218,14 @@
         </v-col>
       </v-row>
 
-      <h2 class="text-h6">🧩 Advanced</h2>
+      <h2 class="text-h6">🧩 Auto Complete
+        <v-tooltip>
+          <template v-slot:activator="{ props }">
+            <v-icon icon="mdi-information" size="16" v-bind="props"></v-icon>
+          </template>
+          Auto Complete은 검색 결과를 선택하지 않으면 model이 업데이트 되지 않는다. (Select 와 유사)
+        </v-tooltip>
+      </h2>
       <v-row>
         <v-col>
           <v-autocomplete
@@ -245,6 +252,37 @@
           ></v-autocomplete>
         </v-col>
       </v-row>
+
+      <h2 class="text-h6">🧩 Combobox
+        <v-tooltip>
+          <template v-slot:activator="{ props }">
+            <v-icon icon="mdi-information" size="16" v-bind="props"></v-icon>
+          </template>
+          Combobox는 추천해주는 기능으로 반드시 option중 하나를 고르지 않아도 동작하며, 이것이 Select box와 다른점이다.
+        </v-tooltip>
+      </h2>
+      <v-row>
+        <v-col>
+          <v-combobox label="Combobox" :items="fruitsList" ></v-combobox>
+        </v-col>
+        <v-col>
+          <v-combobox label="Combobox (Multiple)" :items="fruitsList" multiple></v-combobox>
+        </v-col>
+        <v-col>
+          <v-combobox label="Combobox (Multiple, Chips)" :items="fruitsList" chips multiple></v-combobox>
+        </v-col>
+        <v-col>
+          <v-combobox label="Combobox (Custom Selection)" :items="fruitsList" multiple>
+            <template #selection="data">
+              <div>
+                ##{{ data.item.value }}
+              </div>
+            </template>
+          </v-combobox>
+        </v-col>
+      </v-row>
+
+      <h2 class="text-h6">🧩 Auto File</h2>
       <v-row>
         <v-col>
           <v-file-input placeholder="file Input" />
@@ -279,12 +317,64 @@
         </v-form>
       </v-card-text>
     </v-card>
+    <v-sheet class="pa-4 my-4" border>
+      <h1 class="text-h4">🚀 Table</h1>
+      <v-divider class="my-2"></v-divider>
+      <v-data-table 
+        class="accent"
+        :height="700"
+        stick
+        :headers="[
+        [
+          {
+            key: 'foo',
+            title: 'Foo',
+            colspan: 2,
+            align: 'center',
+          }
+        ],
+        [
+          {
+            key: 'a',
+            width: 100,
+            title: 'A',
+            align: 'center',
+          },
+          {
+            key: 'b',
+            width: 100,
+            title: 'B',
+            align: 'center',
+          },
+          ]
+        ]"
+        :items="Array.from({length: 500}).map((_, v) => ({
+          a: v+1,
+          b: v+1,
+        }))"
+        show-current-page
+        :page="page"
+        @update:page="val => page = val"
+        :items-per-page="perPage"
+        @update:items-per-page="val => perPage = val"
+      >
+      </v-data-table>
+      <v-pagination
+        color=""
+        variant="outlined"
+        v-model="page"
+        :length="Math.ceil(500 / perPage)"
+        :total-visible="7"
+        @update:model-value="val => page = val"
+      ></v-pagination>
+    </v-sheet>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { reactive } from 'vue';
+// import { useDate } from 'vuetify/labs/date';
 
 const colors = [
   'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error',
@@ -307,4 +397,12 @@ const date = ref<any>(new Date());
 const value = ref('');
 
 const fruitsList = ['apple', 'mango', 'banana', 'watermelon'];
+
+const page = ref(1);
+const perPage = ref(10);
+
+// const { addDays, format } = useDate();
+
+// console.log(addDays(Date.now(), 1));
+// console.log(format(Date.now(), 'fullDateWithWeekday'));
 </script>

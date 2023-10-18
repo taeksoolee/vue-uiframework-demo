@@ -1,0 +1,11 @@
+@each $color in (primary, secondary, accent, info, success, warning, error) {
+  .v-table.#{$color} {
+    $color-var: '--v-theme-' + $color;
+    $on-color-var: '--v-theme-on-' + $color;
+    .v-data-table__th {
+      background-color: rgb(var(#{$color-var})) !important;
+      color: rgb(var(#{$on-color-var})) !important;
+    }
+  }
+}
+

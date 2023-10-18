@@ -10,6 +10,7 @@ import 'vuetify/styles'
 
 // Composables
 import { createVuetify } from 'vuetify'
+import { ko } from 'vuetify/locale'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 
 import { VDatePicker } from 'vuetify/labs/VDatePicker'
@@ -38,7 +39,8 @@ export default createVuetify({
       mdi,
     },
   },
-  components: {
-    VDatePicker
+  locale: {
+    locale: 'ko',
+    messages: { ko }
   }
 })
