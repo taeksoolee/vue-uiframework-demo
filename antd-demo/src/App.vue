@@ -9,8 +9,10 @@
       // text
       colorTextBase: 'gray',
       colorTextSecondary: 'orange',
-    }
-  }">
+    },
+  }" 
+  :locale="koKR"
+  >
     <a-app style="background-color: rgba(0,0,0, .05); min-width: 100vw; min-height: 100vh;">
       <nav>
         <router-link to="/">Home</router-link> |
@@ -28,6 +30,8 @@ import { ConfigProvider, theme,  } from 'ant-design-vue';
 const { useToken } = theme;
 const { token } = useToken();
 console.log(token.value);
+
+import koKR from 'ant-design-vue/locale/ko_KR';
 </script>
 
 <style lang="scss">

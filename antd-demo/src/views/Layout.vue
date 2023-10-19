@@ -46,7 +46,7 @@
     </a-layout-sider>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0;">
-        <a-space align="between" class="w-full px-4" :style="{ justifyContent: 'space-between'}">
+        <a-space class="w-full px-4" :style="{ justifyContent: 'space-between'}">
           <a-space-compact>
             <a-space size="small" algin="center">
               <a-button 
