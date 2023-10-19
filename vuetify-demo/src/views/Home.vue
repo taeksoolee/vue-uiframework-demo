@@ -1,5 +1,29 @@
 <template>
+  
   <div class="ma-4">
+    <v-sheet class="pa-4 my-4" border>
+      <h1 class="text-h4">🚀 Datepicker (labs)</h1>
+      <v-divider class="my-2"></v-divider>
+
+      <div class="mb-4">
+        <h2 class="text-h6">🧩 </h2>
+        <v-row>
+          <v-col>
+            <v-date-picker></v-date-picker>
+            <v-divider class="my-2"></v-divider>
+            <div>{{ date }}</div>
+            <v-date-picker v-model:model-value="date" @update:view-mode="val => console.log(val)" color="success" show-adjacent-months >
+              <template #header>
+                <div></div>
+              </template>
+              <template #title>
+                <div>Date Picker</div>
+              </template>
+            </v-date-picker>
+          </v-col>
+        </v-row>
+      </div>
+    </v-sheet>
     <v-sheet class="pa-4 my-4" border>
       <h1 class="text-h4">🚀 Typography</h1>
       <v-divider class="my-2"></v-divider>
@@ -233,10 +257,33 @@
       <h1 class="text-h4 mb-4">🚀 Icons</h1>
       <a href="https://pictogrammers.com/library/mdi/" target="_blank">mdi icons</a>
     </v-sheet>
+
+
+    <v-card class="ma-2">
+      <v-card-title class="bg-primary">Power Form</v-card-title>
+      <v-card-text color="primary" class="py-4">
+        <v-form>
+          <div class="text-empasis">Power</div>
+          <v-text-field
+            :model-value="value"
+            class="mb-2 rounded-xl"
+            variant="outlined"
+            color="primary"
+            suffix="kWh"
+            density="compact"
+            label=""
+            single-line
+            hint="Please, Input Only Number"
+          ></v-text-field>
+          <v-btn block color="primary" size="large">Submit</v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { reactive } from 'vue';
 
 const colors = [
@@ -254,6 +301,10 @@ const shows = reactive({
   right: false,
   bottom: false,
 });
+
+const date = ref<any>(new Date());
+
+const value = ref('');
 
 const fruitsList = ['apple', 'mango', 'banana', 'watermelon'];
 </script>

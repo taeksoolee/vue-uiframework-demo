@@ -19,4 +19,5 @@ const app = createApp(App).use(createPinia())
 
 registerPlugins(app)
 
+
 app.mount('#app')
